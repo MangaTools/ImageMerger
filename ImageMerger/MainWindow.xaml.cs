@@ -112,5 +112,21 @@ namespace ImageMerger
                 output.WriteLine(outDir.Text);
             }
         }
+
+        private void DragOver(object sender, DragEventArgs e)
+        {
+            e.Effects = DragDropEffects.Link;
+            e.Handled = true;
+        }
+
+        private void Drop(object sender, DragEventArgs e)
+        {
+            object text = e.Data.GetData(DataFormats.FileDrop);
+            TextBox tb = sender as TextBox;
+            if (tb != null)
+            {
+                tb.Text = string.Format("{0}", ((string[])text)[0]);
+            }
+        }
     }
 }

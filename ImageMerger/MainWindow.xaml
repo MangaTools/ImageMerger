@@ -6,28 +6,54 @@
         xmlns:local="clr-namespace:ImageMerger"
         mc:Ignorable="d"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        Title="MainWindow" Height="300" Width="400" MaxHeight="300" MaxWidth="400" MinHeight="300" MinWidth="400" ResizeMode="NoResize" Closing="Window_Closing">
+        Title="MainWindow" Height="270" Width="400" MinHeight="270" MaxHeight="270" MinWidth="400"  Closing="Window_Closing">
     <Grid>
-        <StackPanel>
-            <TextBlock>Входной файл</TextBlock>
-            <StackPanel Orientation="Horizontal">
-                <TextBox Width="300" Name="ImageDir"></TextBox>
-                <Button Width="45" Name="ImageBut" Click="ImageBut_Click">Обзор</Button>
-            </StackPanel>
+        <StackPanel Margin="10,0">
+            <Grid Height="35px">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70px"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="50px"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" Grid.Column="0">Входной файл</TextBlock>
+                <TextBox Margin="10,0" VerticalAlignment="Center" Height="25px" Grid.Column="1" AllowDrop="True" PreviewDrop="Drop" PreviewDragOver="DragOver" Name="ImageDir" />
+                <Button Grid.Column="2" Height="25px" Name="ImageBut" Click="ImageBut_Click">Обзор</Button>
+            </Grid>
 
-            <TextBlock >Выходной файл</TextBlock>
-            <StackPanel Orientation="Horizontal">
-                <TextBox Width="300" Name="outDir"></TextBox>
-                <Button Width="45" Name="outButton" Click="outButton_Click">Обзор</Button>
-            </StackPanel>
+            <Grid Height="35px">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70px"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="50px"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
 
-            <TextBlock>Отступ</TextBlock>
-            <xctk:IntegerUpDown Name="offset" Value="0"/>
+                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" Grid.Column="0" >Выходной файл</TextBlock>
+                <TextBox Margin="10,0" VerticalAlignment="Center" Height="25px" Grid.Column="1" AllowDrop="True" PreviewDrop="Drop" PreviewDragOver="DragOver" Name="outDir"/>
+                <Button Grid.Column="2" Height="25px" Name="outButton" Click="outButton_Click">Обзор</Button>
+            </Grid>
 
-            <TextBlock>Сколько картинок склеивать в одну</TextBlock>
-            <xctk:IntegerUpDown Minimum="1" Value="1" Name="countFilesConcat"/>
+            <Grid Height="35px">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120px"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="50px"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" Grid.Column="0">Отступ</TextBlock>
+                <xctk:IntegerUpDown Name="offset" Grid.Column="2" Height="25px" Value="0"/>
+            </Grid>
 
-            <Button Name="DoneBT" Margin="0 10 0 0" Click="DoneBT_Click">СДЕЛАТЬ КРАСИВО</Button>
+            
+            <Grid Height="35px">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120px"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="50px"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" Grid.Column="0">Сколько картинок склеивать в одну</TextBlock>
+                <xctk:IntegerUpDown Minimum="1" Height="25" Grid.Column="2" Value="1" Name="countFilesConcat"/>
+            </Grid>
+
+            <Button Name="DoneBT" Margin="0,10,0,0" Height="50px" Click="DoneBT_Click">СДЕЛАТЬ КРАСИВО</Button>
         </StackPanel>
     </Grid>
 </Window>
