@@ -6,20 +6,23 @@
         xmlns:local="clr-namespace:ImageMerger"
         mc:Ignorable="d"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        Title="MainWindow" Height="270" Width="400" MinHeight="270" MaxHeight="270" MinWidth="400"  Closing="Window_Closing">
+        SizeToContent="WidthAndHeight"
+        Title="Склейка/Нарезка картинок" MinHeight="300" MinWidth="400" Closing="Window_Closing">
     <Grid>
         <StackPanel Margin="10,0">
+            <!--Входная папка-->
             <Grid Height="35px">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="70px"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="50px"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" Grid.Column="0">Входной файл</TextBlock>
+                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" Grid.Column="0">Входная папка</TextBlock>
                 <TextBox Margin="10,0" VerticalAlignment="Center" Height="25px" Grid.Column="1" AllowDrop="True" PreviewDrop="Drop" PreviewDragOver="DragOver" Name="ImageDir" />
                 <Button Grid.Column="2" Height="25px" Name="ImageBut" Click="ImageBut_Click">Обзор</Button>
             </Grid>
 
+            <!--Выходная папка-->
             <Grid Height="35px">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="70px"></ColumnDefinition>
@@ -27,33 +30,145 @@
                     <ColumnDefinition Width="50px"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" Grid.Column="0" >Выходной файл</TextBlock>
+                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" Grid.Column="0" >Выходная папка</TextBlock>
                 <TextBox Margin="10,0" VerticalAlignment="Center" Height="25px" Grid.Column="1" AllowDrop="True" PreviewDrop="Drop" PreviewDragOver="DragOver" Name="outDir"/>
                 <Button Grid.Column="2" Height="25px" Name="outButton" Click="outButton_Click">Обзор</Button>
             </Grid>
 
-            <Grid Height="35px">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120px"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="50px"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" Grid.Column="0">Отступ</TextBlock>
-                <xctk:IntegerUpDown Name="offset" Grid.Column="2" Height="25px" Value="0"/>
-            </Grid>
+            <!--Режим работы-->
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Margin="0,0,10,0" GroupName="ImageProccessType" Name="ConcatMode">Склейка</RadioButton>
+                <RadioButton GroupName="ImageProccessType" Name="SliceMode" >Нарезка</RadioButton>
+            </StackPanel>
 
-            
-            <Grid Height="35px">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120px"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="50px"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center" VerticalAlignment="Center" Grid.Column="0">Сколько картинок склеивать в одну</TextBlock>
-                <xctk:IntegerUpDown Minimum="1" Height="25" Grid.Column="2" Value="1" Name="countFilesConcat"/>
-            </Grid>
+            <!--Настройки склейки-->
+            <StackPanel Orientation="Vertical" Name="ConcatSettings">
+                <Grid Height="35px">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="50px"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left" VerticalAlignment="Center" Grid.Column="0">Отступ</TextBlock>
+                    <xctk:IntegerUpDown Name="offset" Grid.Column="1" Height="25px" Value="0"/>
+                </Grid>
 
-            <Button Name="DoneBT" Margin="0,10,0,0" Height="50px" Click="DoneBT_Click">СДЕЛАТЬ КРАСИВО</Button>
+
+                <Grid Height="35px">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="50px"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left" ToolTip="Данный параметр игнорируется, если указана максимальная высота картинки" VerticalAlignment="Center" Grid.Column="0">Сколько картинок склеивать в одну</TextBlock>
+                    <xctk:IntegerUpDown Minimum="1" Height="25" Grid.Column="1" Value="1" Name="countFilesConcat"/>
+                </Grid>
+
+                <Grid Height="35px">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="50px"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left" ToolTip="Данный параметр игнорируется, если значение равно 0" VerticalAlignment="Center" Grid.Column="0">Максимальная высота картинки (пиксели)</TextBlock>
+                    <xctk:IntegerUpDown Minimum="0" Height="25" Grid.Column="1" Value="0" Name="maxHeightConcat"/>
+                </Grid>
+            </StackPanel>
+
+            <!--Настройки нарезки-->
+            <StackPanel Orientation="Vertical" Name="SliceSettings">
+                <Grid Height="35px">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="50px"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock TextWrapping="Wrap" ToolTip="Данный параметр игнорируется, если указаны значения в автоматической разрезке" HorizontalAlignment="Left" TextAlignment="Left" VerticalAlignment="Center" Grid.Column="0">На сколько картинок делить изображения</TextBlock>
+                    <xctk:IntegerUpDown Minimum="1" Height="25" Grid.Column="1" Value="1" Name="SliceCount"/>
+                </Grid>
+
+                <GroupBox ToolTip="Данные параметры игнорируются, если хотя бы один параметр равен 0" Header="Настройка автоматической разрезки">
+                    <StackPanel>
+                    <Grid Height="35px">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="50px"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left"
+                               VerticalAlignment="Center" Grid.Column="0">
+                        Максимальная высота картинки
+                        </TextBlock>
+                        <xctk:IntegerUpDown Minimum="0" Height="25" Grid.Column="1" Value="0" Name="SliceMaxHeight"/>
+                    </Grid>
+                    <Grid Height="35px">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="50px"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left"
+                               VerticalAlignment="Center" Grid.Column="0">
+                        Минимальная высота картинки
+                        </TextBlock>
+                        <xctk:IntegerUpDown Minimum="0" Height="25" Grid.Column="1" Value="0" Name="SliceMinHeight"/>
+                    </Grid>
+                </StackPanel>
+                </GroupBox>
+                
+
+                <Grid Height="35px">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="50px"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"
+                               TextAlignment="Left" VerticalAlignment="Center" Grid.Column="0">
+                        <TextBlock.Text>Попытаться разрезать в пустой зоне?</TextBlock.Text>
+                        <TextBlock.ToolTip>Программа попытается найти такую зону, в которой не будет перепада цветов
+                            (Должен быть только один цвет в пределах 1 высоты)</TextBlock.ToolTip>
+                    </TextBlock>
+                    <CheckBox HorizontalAlignment="Center" IsChecked="True" VerticalAlignment="Center" Grid.Column="1"  Name="TryTrueSlice" Click="TryTrueSlice_Click"/>
+                </Grid>
+
+                <!--Настройки TrueSlice-->
+                <GroupBox Header="Настройка пустой зоны"  Name="TrueSliceSettings">
+                    <StackPanel>
+                        <Grid Height="35px">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="50px"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"
+                               TextAlignment="Left" VerticalAlignment="Center" Grid.Column="0">
+                        Высота зоны
+                            </TextBlock>
+                            <xctk:IntegerUpDown Minimum="1" Height="25" Grid.Column="1" Value="1" Name="TrueSliceHeight"/>
+                        </Grid>
+                        <Grid Height="35px">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="50px"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"
+                               TextAlignment="Left" VerticalAlignment="Center" Grid.Column="0">
+                        Допуск разницы цвета в зоне
+                            </TextBlock>
+                            <xctk:IntegerUpDown Minimum="1" Height="25" Grid.Column="1" Maximum="255" Value="32" Name="TrueSliceColorDifference"/>
+                        </Grid>
+                        <Grid Height="35px">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="50px"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"
+                               TextAlignment="Left" VerticalAlignment="Center" Grid.Column="0">
+                        Максимальная дальность попытки разрезать
+                            </TextBlock>
+                            <xctk:IntegerUpDown Minimum="1" Height="25" Grid.Column="1" Value="50" Name="TrueSliceMaxDistance"/>
+                        </Grid>
+                    </StackPanel>
+                </GroupBox>
+
+
+            </StackPanel>
+
+            <Button Name="DoneBT" Margin="0,10,0,0" Height="50px" Click="DoneBT_Click">Выполнить</Button>
+            <ProgressBar Margin="0,10" Height="25" Maximum="1" Name="Progress" ></ProgressBar>
         </StackPanel>
     </Grid>
 </Window>

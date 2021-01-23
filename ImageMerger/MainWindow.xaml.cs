@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,6 +29,10 @@ namespace ImageMerger
         public MainWindow()
         {
             InitializeComponent();
+            ConcatMode.Checked += ConcatMode_Checked;
+            SliceMode.Checked += SliceMode_Checked;
+            ConcatMode.IsChecked = true;
+
             if (File.Exists("setting.txt"))
             {
                 using (var input = new StreamReader("setting.txt"))
@@ -60,20 +66,55 @@ namespace ImageMerger
             }
         }
 
-        private void DoneBT_Click(object sender, RoutedEventArgs e)
+        private async void DoneBT_Click(object sender, RoutedEventArgs e)
         {
             Directory.CreateDirectory(outDir.Text);
+            Progress.Value = 0;
+            DoneBT.IsEnabled = false;
 
-            var files = Directory.GetFiles(ImageDir.Text).Where(x => Extensions.Contains(System.IO.Path.GetExtension(x))).ToArray();
+            var bw = new BackgroundWorker();
+
+            bw.RunWorkerCompleted += (s, args) =>
+            {
+                DoneBT.Dispatcher.Invoke(() => DoneBT.IsEnabled = true);
+            };
+
+            if (ConcatMode.IsChecked.Value)
+            {
+                bw.DoWork += (o, ev) =>
+                {
+                    ConcatImages();
+                };
+            }
+            else
+            {
+                bw.DoWork += (o, ev) =>
+                {
+                    SliceImages();
+                };
+            }
+            bw.RunWorkerAsync();
+
+        }
+
+        private void ConcatImages()
+        {
+            var inDir = ImageDir.Dispatcher.Invoke(() => ImageDir.Text);
+            var outDIrectory = ImageDir.Dispatcher.Invoke(() => outDir.Text);
+            var offsetValue = offset.Dispatcher.Invoke(() => offset.Value.Value);
+            var files = Directory.GetFiles(inDir).Where(x => Extensions.Contains(System.IO.Path.GetExtension(x))).ToArray();
+            var maxFiles = files.Length;
+
             int i = 1;
             int pad = 2;
 
             while (files.Length != 0)
             {
-                var mergingFiles = files.Take(countFilesConcat.Value.Value).Select(x => new Bitmap(x)).ToArray();
-                files = files.Skip(countFilesConcat.Value.Value).ToArray();
-                var result = Merge(mergingFiles, offset.Value.Value);
-                var path = $"{outDir.Text}\\{i.ToString().PadLeft(pad, '0')}.png";
+                var mergingFiles = TakeImagesForConcat(files);
+                files = files.Skip(mergingFiles.Length).ToArray();
+                Progress.Dispatcher.Invoke(() => Progress.Value += (double)mergingFiles.Length / maxFiles);
+                var result = Merge(mergingFiles, offsetValue);
+                var path = $"{outDIrectory}\\{i.ToString().PadLeft(pad, '0')}.png";
                 result.Save(path);
                 result.Dispose();
                 foreach (var file in mergingFiles)
@@ -82,6 +123,39 @@ namespace ImageMerger
                 }
                 i++;
             }
+            SystemSounds.Asterisk.Play();
+
+        }
+
+        private Bitmap[] TakeImagesForConcat(string[] files)
+        {
+            var maxHeightConcatValue = maxHeightConcat.Dispatcher.Invoke(() => maxHeightConcat.Value);
+            var maxFiles = countFilesConcat.Dispatcher.Invoke(() => countFilesConcat.Value.Value);
+
+            if (maxHeightConcatValue == 0)
+            {
+                return files.Take(maxFiles).Select(x => new Bitmap(x)).ToArray();
+            }
+            else
+            {
+                List<Bitmap> bitmaps = new List<Bitmap>();
+                var currentHeight = 0;
+                var curIndex = 0;
+                while (maxHeightConcatValue > currentHeight)
+                {
+                    var newBitmap = new Bitmap(files[curIndex]);
+                    currentHeight += newBitmap.Width;
+                    bitmaps.Add(newBitmap);
+                }
+                bitmaps[bitmaps.Count - 1].Dispose();
+                bitmaps.RemoveAt(bitmaps.Count - 1);
+                return bitmaps.ToArray();
+            }
+        }
+
+        private void SliceImages()
+        {
+
         }
 
         private static Bitmap Merge(Bitmap[] bitmaps, int offset)
@@ -127,6 +201,32 @@ namespace ImageMerger
             {
                 tb.Text = string.Format("{0}", ((string[])text)[0]);
             }
+        }
+
+        private void ConcatMode_Checked(object sender, RoutedEventArgs e)
+        {
+            ConcatSettings.Visibility = Visibility.Visible;
+            SliceSettings.Visibility = Visibility.Collapsed;
+        }
+
+        private void SliceMode_Checked(object sender, RoutedEventArgs e)
+        {
+            ConcatSettings.Visibility = Visibility.Collapsed;
+            SliceSettings.Visibility = Visibility.Visible;
+        }
+
+
+        private void TryTrueSlice_Click(object sender, RoutedEventArgs e)
+        {
+            if (TryTrueSlice.IsChecked.Value == true)
+            {
+                TrueSliceSettings.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                TrueSliceSettings.Visibility = Visibility.Collapsed;
+            }
+
         }
     }
 }
