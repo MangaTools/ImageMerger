@@ -79,37 +79,12 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="50px"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBlock TextWrapping="Wrap" ToolTip="Данный параметр игнорируется, если указаны значения в автоматической разрезке" HorizontalAlignment="Left" TextAlignment="Left" VerticalAlignment="Center" Grid.Column="0">На сколько картинок делить изображения</TextBlock>
+                    <TextBlock TextWrapping="Wrap" ToolTip="Данный параметр игнорируется, если указаны значения в автоматической разрезке" HorizontalAlignment="Left" TextAlignment="Left" VerticalAlignment="Center" Grid.Column="0">Сколько разрезов делать</TextBlock>
                     <xctk:IntegerUpDown Minimum="1" Height="25" Grid.Column="1" Value="1" Name="SliceCount"/>
                 </Grid>
 
-                <GroupBox ToolTip="Данные параметры игнорируются, если хотя бы один параметр равен 0" Header="Настройка автоматической разрезки">
-                    <StackPanel>
-                    <Grid Height="35px">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="50px"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left"
-                               VerticalAlignment="Center" Grid.Column="0">
-                        Максимальная высота картинки
-                        </TextBlock>
-                        <xctk:IntegerUpDown Minimum="0" Height="25" Grid.Column="1" Value="0" Name="SliceMaxHeight"/>
-                    </Grid>
-                    <Grid Height="35px">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="50px"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left"
-                               VerticalAlignment="Center" Grid.Column="0">
-                        Минимальная высота картинки
-                        </TextBlock>
-                        <xctk:IntegerUpDown Minimum="0" Height="25" Grid.Column="1" Value="0" Name="SliceMinHeight"/>
-                    </Grid>
-                </StackPanel>
-                </GroupBox>
-                
+
+
 
                 <Grid Height="35px">
                     <Grid.ColumnDefinitions>
@@ -128,7 +103,7 @@
                 <!--Настройки TrueSlice-->
                 <GroupBox Header="Настройка пустой зоны"  Name="TrueSliceSettings">
                     <StackPanel>
-                        <Grid Height="35px">
+                        <Grid Height="35px" ToolTip="Указывает ширину линии проверки. Указывайте, если хотите, чтобы программа находила большие пустые промежутки">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                                 <ColumnDefinition Width="50px"></ColumnDefinition>
@@ -150,7 +125,7 @@
                             </TextBlock>
                             <xctk:IntegerUpDown Minimum="1" Height="25" Grid.Column="1" Maximum="255" Value="32" Name="TrueSliceColorDifference"/>
                         </Grid>
-                        <Grid Height="35px">
+                        <Grid Height="35px" ToolTip="Не работает, если указана максимальная высота картинки">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
                                 <ColumnDefinition Width="50px"></ColumnDefinition>
@@ -161,10 +136,30 @@
                             </TextBlock>
                             <xctk:IntegerUpDown Minimum="1" Height="25" Grid.Column="1" Value="50" Name="TrueSliceMaxDistance"/>
                         </Grid>
+                        <Grid Height="35px">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="50px"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left"
+                               VerticalAlignment="Center" Grid.Column="0">
+                        Минимальная высота картинки
+                            </TextBlock>
+                            <xctk:IntegerUpDown Minimum="200" Height="25" Grid.Column="1" Value="200" Name="SliceMinHeight"/>
+                        </Grid>
+                        <Grid Height="35px">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="50px"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left"
+                               VerticalAlignment="Center" Grid.Column="0">
+                        Максимальная высота картинки
+                            </TextBlock>
+                            <xctk:IntegerUpDown Minimum="0" Height="25" Grid.Column="1" Value="0" Name="SliceMaxHeight"/>
+                        </Grid>
                     </StackPanel>
                 </GroupBox>
-
-
             </StackPanel>
 
             <Button Name="DoneBT" Margin="0,10,0,0" Height="50px" Click="DoneBT_Click">Выполнить</Button>
