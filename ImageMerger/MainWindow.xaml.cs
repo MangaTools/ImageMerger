@@ -150,14 +150,18 @@ namespace ImageMerger
                 List<Bitmap> bitmaps = new List<Bitmap>();
                 var currentHeight = 0;
                 var curIndex = 0;
-                while (maxHeightConcatValue > currentHeight)
+                while (maxHeightConcatValue > currentHeight && curIndex < files.Length)
                 {
                     var newBitmap = new Bitmap(files[curIndex]);
+                    if(newBitmap.Height + currentHeight > maxHeightConcatValue)
+                    {
+                        newBitmap.Dispose();
+                        break;
+                    }
                     currentHeight += newBitmap.Height;
+                    curIndex++;
                     bitmaps.Add(newBitmap);
                 }
-                bitmaps[bitmaps.Count - 1].Dispose();
-                bitmaps.RemoveAt(bitmaps.Count - 1);
                 return bitmaps.ToArray();
             }
         }
