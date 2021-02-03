@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageMerger_GUI", "ImageMer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageMerger_CLI", "ImageMerger_CLI\ImageMerger_CLI.csproj", "{E35475D6-BFAE-41E0-A500-FD78E1E9A2CB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageMerger_Core", "ImageMerger_Core\ImageMerger_Core.csproj", "{B919C422-3A82-424E-9924-39A6B276E9A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{E35475D6-BFAE-41E0-A500-FD78E1E9A2CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E35475D6-BFAE-41E0-A500-FD78E1E9A2CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E35475D6-BFAE-41E0-A500-FD78E1E9A2CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B919C422-3A82-424E-9924-39A6B276E9A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B919C422-3A82-424E-9924-39A6B276E9A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B919C422-3A82-424E-9924-39A6B276E9A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B919C422-3A82-424E-9924-39A6B276E9A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

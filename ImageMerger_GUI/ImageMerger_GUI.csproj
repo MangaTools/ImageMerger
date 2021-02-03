@@ -123,5 +123,11 @@
   <ItemGroup>
     <Resource Include="m.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ImageMerger_Core\ImageMerger_Core.csproj">
+      <Project>{b919c422-3a82-424e-9924-39a6b276e9a6}</Project>
+      <Name>ImageMerger_Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

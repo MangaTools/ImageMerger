@@ -1,29 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Threading;
 
 namespace ImageMerger
 {
     /// <summary>
-    /// Логика взаимодействия для App.xaml
+    ///     Логика взаимодействия для App.xaml
     /// </summary>
     public partial class App : Application
     {
-        public App() : base()
+        public App()
         {
             Dispatcher.UnhandledException += OnDispatcherUnhandledException;
         }
 
-        private void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            string stackTrace = e.Exception.StackTrace;
-            MessageBox.Show(e.Exception.Message+"\n\n"+stackTrace, "Error");
+            var stackTrace = e.Exception.StackTrace;
+            MessageBox.Show(e.Exception.Message + "\n\n" + stackTrace, "Error");
         }
     }
-
-
 }
