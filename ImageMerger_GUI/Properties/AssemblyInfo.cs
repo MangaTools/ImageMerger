@@ -11,7 +11,7 @@ using System.Windows;
 [assembly: AssemblyDescription("Merge pictures")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ShaDream")]
-[assembly: AssemblyProduct("ImageMerger")]
+[assembly: AssemblyProduct("ImageMerger_GUI")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
