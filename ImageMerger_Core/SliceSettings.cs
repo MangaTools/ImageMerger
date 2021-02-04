@@ -1,20 +1,40 @@
-﻿namespace ImageMerger_Core
+﻿using System;
+using Newtonsoft.Json;
+
+namespace ImageMerger_Core
 {
-    public readonly struct SliceSettings
+    [Serializable]
+    public class SliceSettings
     {
-        public readonly string InputDirectory;
-        public readonly string OutputDirectory;
-        public readonly int SliceCount;
-        public readonly bool IsTrueSlice;
-        public readonly int TrueSliceMinHeight;
-        public readonly int TrueSliceMaxHeight;
-        public readonly int TrueSliceMaxDistance;
-        public readonly int TrueSliceColorDifference;
-        public readonly int TrueSliceHeight;
+        [JsonProperty]
+        public string InputDirectory { get; private set; }
+        [JsonProperty]
+        public string OutputDirectory { get; private set; }
+        [JsonProperty]
+        public int SliceCount { get; private set; }
+        [JsonProperty]
+        public bool IsTrueSlice { get; private set; }
+        [JsonProperty]
+        public int TrueSliceMinHeight { get; private set; }
+        [JsonProperty]
+        public int TrueSliceMaxHeight { get; private set; }
+        [JsonProperty]
+        public int TrueSliceMaxDistance { get; private set; }
+        [JsonProperty]
+        public int TrueSliceColorDifference { get; private set; }
+        [JsonProperty]
+        public int TrueSliceHeight { get; private set; }
+        [JsonProperty]
+        public int Pad { get; private set; }
+
+        public SliceSettings()
+        {
+
+        }
 
         public SliceSettings(string inputDirectory, string outputDirectory, int sliceCount, bool isTrueSlice,
             int trueSliceMinHeight, int trueSliceMaxHeight, int trueSliceMaxDistance, int trueSliceColorDifference,
-            int trueSliceHeight)
+            int trueSliceHeight, int pad)
         {
             InputDirectory = inputDirectory;
             OutputDirectory = outputDirectory;
@@ -25,6 +45,7 @@
             TrueSliceMaxDistance = trueSliceMaxDistance;
             TrueSliceColorDifference = trueSliceColorDifference;
             TrueSliceHeight = trueSliceHeight;
+            Pad = pad;
         }
     }
 }

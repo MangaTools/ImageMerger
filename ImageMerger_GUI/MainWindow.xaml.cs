@@ -18,6 +18,8 @@ namespace ImageMerger
     /// </summary>
     public partial class MainWindow : Window
     {
+        private StartSettings settings;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -25,12 +27,27 @@ namespace ImageMerger
             SliceMode.Checked += SliceMode_Checked;
             ConcatMode.IsChecked = true;
 
-            if (File.Exists("setting.txt"))
-                using (var input = new StreamReader("setting.txt"))
-                {
-                    ImageDir.Text = input.ReadLine() ?? string.Empty;
-                    outDir.Text = input.ReadLine() ?? string.Empty;
-                }
+            if (StartSettings.TryLoad(out settings))
+            {
+                LoadFromSettings();
+            }
+        }
+
+        private void LoadFromSettings()
+        {
+            ImageDir.Text = settings.ConcatSettings.InputDirectory;
+            outDir.Text = settings.ConcatSettings.OutputDirectory;
+            countFilesConcat.Value = settings.ConcatSettings.MaxFiles;
+            maxHeightConcat.Value = settings.ConcatSettings.MaxFileHeight;
+            offset.Value = settings.ConcatSettings.Offset;
+
+            SliceCount.Value = settings.SliceSettings.SliceCount;
+            TryTrueSlice.IsChecked = settings.SliceSettings.IsTrueSlice;
+            SliceMinHeight.Value = settings.SliceSettings.TrueSliceMinHeight;
+            SliceMaxHeight.Value = settings.SliceSettings.TrueSliceMaxHeight;
+            TrueSliceMaxDistance.Value = settings.SliceSettings.TrueSliceMaxDistance;
+            TrueSliceColorDifference.Value = settings.SliceSettings.TrueSliceColorDifference;
+            TrueSliceHeight.Value = settings.SliceSettings.TrueSliceHeight;
         }
 
         private void ImageBut_Click(object sender, RoutedEventArgs e)
@@ -102,16 +119,16 @@ namespace ImageMerger
                 SliceMaxHeight.Value ?? 0,
                 TrueSliceMaxDistance.Value ?? 1,
                 TrueSliceColorDifference.Value ?? 1,
-                TrueSliceHeight.Value ?? 1);
+                TrueSliceHeight.Value ?? 1,
+                2);
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            using (var output = new StreamWriter("setting.txt"))
-            {
-                output.WriteLine(ImageDir.Text);
-                output.WriteLine(outDir.Text);
-            }
+            settings.SliceSettings = GetSliceSettings();
+            settings.ConcatSettings = GetConcatSettings();
+
+            settings.Save();
         }
 
         private void DragOver(object sender, DragEventArgs e)

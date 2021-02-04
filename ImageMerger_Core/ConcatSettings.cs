@@ -1,13 +1,28 @@
-﻿namespace ImageMerger_Core
+﻿using System;
+using Newtonsoft.Json;
+
+namespace ImageMerger_Core
 {
-    public readonly struct ConcatSettings
+    [Serializable]
+    public class ConcatSettings
     {
-        public readonly string InputDirectory;
-        public readonly string OutputDirectory;
-        public readonly int MaxFiles;
-        public readonly int MaxFileHeight;
-        public readonly int Offset;
-        public readonly int Pad;
+        [JsonProperty]
+        public string InputDirectory { get; private set; }
+        [JsonProperty]
+        public string OutputDirectory { get; private set; }
+        [JsonProperty]
+        public int MaxFiles { get; private set; }
+        [JsonProperty]
+        public int MaxFileHeight { get; private set; }
+        [JsonProperty]
+        public int Offset { get; private set; }
+        [JsonProperty]
+        public int Pad { get; private set; }
+
+        public ConcatSettings()
+        {
+
+        }
 
         public ConcatSettings(string inputDirectory, string outputDirectory, int maxFiles, int maxFileHeight,
             int offset, int pad)
