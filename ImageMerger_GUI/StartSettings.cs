@@ -29,5 +29,11 @@ namespace ImageMerger
             var result = JsonConvert.SerializeObject(this);
             File.WriteAllText("Settings.json", result);
         }
+
+        public StartSettings()
+        {
+            ConcatSettings = new ConcatSettings();
+            SliceSettings = new SliceSettings();
+        }
     }
 }

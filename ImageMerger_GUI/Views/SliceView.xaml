@@ -1,0 +1,114 @@
+﻿<Page x:Class="ImageMerger_GUI.Views.SliceView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+      xmlns:viewModels="clr-namespace:ImageMerger.ViewModels"
+      mc:Ignorable="d"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="SliceView" d:DataContext="{d:DesignInstance {x:Type viewModels:SliceViewModel}}">
+
+    <Grid>
+        <!--Настройки нарезки-->
+        <StackPanel Orientation="Vertical">
+            <Grid Height="35px">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="50px" />
+                </Grid.ColumnDefinitions>
+                <TextBlock TextWrapping="Wrap"
+                           ToolTip="Если указана максимальная высота картинки, то данный пункт не работает"
+                           HorizontalAlignment="Left" TextAlignment="Left" VerticalAlignment="Center"
+                           Grid.Column="0">
+                    Сколько разрезов делать
+                </TextBlock>
+                <xctk:IntegerUpDown Minimum="1" Height="25" Grid.Column="1" Value="{Binding SliceCount}" />
+            </Grid>
+
+            <Grid Height="35px">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="50px" />
+                </Grid.ColumnDefinitions>
+                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"
+                           TextAlignment="Left" VerticalAlignment="Center" Grid.Column="0">
+                    <TextBlock.Text>Попытаться разрезать в пустой зоне?</TextBlock.Text>
+                    <TextBlock.ToolTip>
+                        Программа попытается найти такую линию, в которой не будет перепада цветов
+                        (Должен быть только один цвет в пределах одной высоты)
+                    </TextBlock.ToolTip>
+                </TextBlock>
+                <CheckBox HorizontalAlignment="Center" IsChecked="{Binding IsTrueSlice}" VerticalAlignment="Center"
+                          Grid.Column="1" />
+            </Grid>
+
+            <!--Настройки TrueSlice-->
+            <GroupBox Header="Настройка пустой зоны" Visibility="{Binding TrueSliceSettingsVisibility, Mode=OneWay}">
+                <StackPanel>
+                    <Grid Height="35px"
+                          ToolTip="Указывает ширину линии проверки. Указывайте, если хотите, чтобы программа находила большие пустые промежутки">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="50px" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"
+                                   TextAlignment="Left" VerticalAlignment="Center" Grid.Column="0">
+                            Высота зоны
+                        </TextBlock>
+                        <xctk:IntegerUpDown Minimum="1" Height="25" Grid.Column="1" Value="{Binding TrueSliceHeight}" />
+                    </Grid>
+                    <Grid Height="35px"
+                          ToolTip="Насколько разными допускаются цвета на 1 линии. Используется, чтобы алгоритм не ухватывал шум.">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="50px" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"
+                                   TextAlignment="Left" VerticalAlignment="Center" Grid.Column="0">
+                            Допуск разницы цвета в зоне
+                        </TextBlock>
+                        <xctk:IntegerUpDown Minimum="1" Height="25" Grid.Column="1" Maximum="255"
+                                            Value="{Binding TrueSliceColorDifference}" />
+                    </Grid>
+                    <Grid Height="35px"
+                          ToolTip="Работает, если не указана Максимальная высота. Указывает промежуток, между которым можно сделать разрез. Используется вместе с параметром 'Сколько разрезов делать'">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="50px" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"
+                                   TextAlignment="Left" VerticalAlignment="Center" Grid.Column="0">
+                            Максимальная дальность попытки разрезать
+                        </TextBlock>
+                        <xctk:IntegerUpDown Minimum="1" Height="25" Grid.Column="1"
+                                            Value="{Binding TrueSliceMaxDistance}" />
+                    </Grid>
+                    <Grid Height="35px" ToolTip="Указывается, каков минимальный размер разрезанной картинки">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="50px" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left"
+                                   VerticalAlignment="Center" Grid.Column="0">
+                            Минимальная высота картинки
+                        </TextBlock>
+                        <xctk:IntegerUpDown Minimum="200" Height="25" Grid.Column="1" Value="{Binding SliceMinHeight}" />
+                    </Grid>
+                    <Grid Height="35px"
+                          ToolTip="Если у вас есть предпочтения по максимальной высоте. Алгоритм может сделать разрез больше, чем указан, если после разреза 1 из картинок меньше минимальной высоты">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="50px" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left"
+                                   VerticalAlignment="Center" Grid.Column="0">
+                            Максимальная высота картинки
+                        </TextBlock>
+                        <xctk:IntegerUpDown Minimum="0" Height="25" Grid.Column="1" Value="{Binding SliceMaxHeight}" />
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </Grid>
+</Page>

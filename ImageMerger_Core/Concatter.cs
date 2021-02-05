@@ -11,12 +11,7 @@ namespace ImageMerger_Core
     {
         private static readonly HashSet<string> Extensions = new HashSet<string> {".png", ".jpg", ".jpeg"};
 
-        public static async Task ConcatAsync(ConcatSettings settings, IProgress<double> progress)
-        {
-            await Task.Run(() => { ConcatDirectory(settings, progress); });
-        }
-
-        private static void ConcatDirectory(ConcatSettings settings, IProgress<double> progress)
+        public static void Concat(ConcatSettings settings, IProgress<double> progress)
         {
             var files = Directory.GetFiles(settings.InputDirectory)
                 .Where(x => Extensions.Contains(Path.GetExtension(x)))

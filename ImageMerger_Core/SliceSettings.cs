@@ -7,29 +7,38 @@ namespace ImageMerger_Core
     public class SliceSettings
     {
         [JsonProperty]
-        public string InputDirectory { get; private set; }
+        public string InputDirectory { get; set; }
         [JsonProperty]
-        public string OutputDirectory { get; private set; }
+        public string OutputDirectory { get; set; }
         [JsonProperty]
-        public int SliceCount { get; private set; }
+        public int SliceCount { get; set; }
         [JsonProperty]
-        public bool IsTrueSlice { get; private set; }
+        public bool IsTrueSlice { get; set; }
         [JsonProperty]
-        public int TrueSliceMinHeight { get; private set; }
+        public int TrueSliceMinHeight { get; set; }
         [JsonProperty]
-        public int TrueSliceMaxHeight { get; private set; }
+        public int TrueSliceMaxHeight { get; set; }
         [JsonProperty]
-        public int TrueSliceMaxDistance { get; private set; }
+        public int TrueSliceMaxDistance { get; set; }
         [JsonProperty]
-        public int TrueSliceColorDifference { get; private set; }
+        public int TrueSliceColorDifference { get; set; }
         [JsonProperty]
-        public int TrueSliceHeight { get; private set; }
+        public int TrueSliceHeight { get; set; }
         [JsonProperty]
-        public int Pad { get; private set; }
+        public int Pad { get; set; }
 
         public SliceSettings()
         {
-
+            InputDirectory = "";
+            OutputDirectory = "";
+            SliceCount = 1;
+            IsTrueSlice = false;
+            TrueSliceMinHeight = 200;
+            TrueSliceMaxHeight = 0;
+            TrueSliceMaxDistance = 1;
+            TrueSliceColorDifference = 1;
+            TrueSliceHeight = 1;
+            Pad = 2;
         }
 
         public SliceSettings(string inputDirectory, string outputDirectory, int sliceCount, bool isTrueSlice,

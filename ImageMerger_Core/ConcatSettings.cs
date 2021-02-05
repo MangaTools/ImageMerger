@@ -7,21 +7,26 @@ namespace ImageMerger_Core
     public class ConcatSettings
     {
         [JsonProperty]
-        public string InputDirectory { get; private set; }
+        public string InputDirectory { get; set; }
         [JsonProperty]
-        public string OutputDirectory { get; private set; }
+        public string OutputDirectory { get; set; }
         [JsonProperty]
-        public int MaxFiles { get; private set; }
+        public int MaxFiles { get; set; }
         [JsonProperty]
-        public int MaxFileHeight { get; private set; }
+        public int MaxFileHeight { get; set; }
         [JsonProperty]
-        public int Offset { get; private set; }
+        public int Offset { get; set; }
         [JsonProperty]
-        public int Pad { get; private set; }
+        public int Pad { get; set; }
 
         public ConcatSettings()
         {
-
+            InputDirectory = "";
+            OutputDirectory = "";
+            MaxFiles = 1;
+            MaxFileHeight = 0;
+            Offset = 0;
+            Pad = 2;
         }
 
         public ConcatSettings(string inputDirectory, string outputDirectory, int maxFiles, int maxFileHeight,
