@@ -27,9 +27,7 @@
             <!--Входная папка-->
             <Grid Height="35px">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="70px" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="50px" />
+                    <ColumnDefinition Width="70px" /> <ColumnDefinition Width="*" /> <ColumnDefinition Width="50px" />
                 </Grid.ColumnDefinitions>
                 <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"
                            VerticalAlignment="Center" Grid.Column="0">
@@ -52,9 +50,7 @@
             <!--Выходная папка-->
             <Grid Height="35px">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="70px" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="50px" />
+                    <ColumnDefinition Width="70px" /> <ColumnDefinition Width="*" /> <ColumnDefinition Width="50px" />
                 </Grid.ColumnDefinitions>
 
                 <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"
@@ -88,8 +84,10 @@
             </StackPanel>
 
             <Frame Content="{Binding WorkPage, Mode=OneWay}" NavigationUIVisibility="Hidden" />
-
-            <Button Name="DoneBt" Margin="0,10,0,0" Height="50px" Command="{Binding ProcessWorkCommand}" IsEnabled="{Binding IsProcessWorkingEnabled}">Выполнить</Button>
+            <Button Name="DoneBt" Margin="0,10,0,0" Height="50px" Command="{Binding ProcessWorkCommand}"
+                    IsEnabled="{Binding IsProcessWorkingEnabled}">
+                Выполнить
+            </Button>
             <ProgressBar Margin="0,10" Height="25" Maximum="1" Value="{Binding WorkProgress}" />
         </StackPanel>
     </Grid>

@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Media;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using ImageMerger.Enums;
 using ImageMerger_Core;
 using ImageMerger_GUI.Views;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -17,9 +15,9 @@ namespace ImageMerger.ViewModels
     public class MainWindowViewModel : BindableBase
     {
         private readonly CommonOpenFileDialog folderDialog;
-        private readonly Progress<double> progress;
 
         private readonly Dictionary<WorkType, Page> pages;
+        private readonly Progress<double> progress;
         private readonly StartSettings settings;
         private DelegateCommand closingWindowCommand;
 

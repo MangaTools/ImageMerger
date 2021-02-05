@@ -14,8 +14,7 @@
         <StackPanel Orientation="Vertical">
             <Grid Height="35px">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="50px" />
+                    <ColumnDefinition Width="*" /> <ColumnDefinition Width="50px" />
                 </Grid.ColumnDefinitions>
                 <TextBlock TextWrapping="Wrap"
                            ToolTip="Если указана максимальная высота картинки, то данный пункт не работает"
@@ -28,16 +27,12 @@
 
             <Grid Height="35px">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="50px" />
+                    <ColumnDefinition Width="*" /> <ColumnDefinition Width="50px" />
                 </Grid.ColumnDefinitions>
                 <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"
                            TextAlignment="Left" VerticalAlignment="Center" Grid.Column="0">
                     <TextBlock.Text>Попытаться разрезать в пустой зоне?</TextBlock.Text>
-                    <TextBlock.ToolTip>
-                        Программа попытается найти такую линию, в которой не будет перепада цветов
-                        (Должен быть только один цвет в пределах одной высоты)
-                    </TextBlock.ToolTip>
+                    <TextBlock.ToolTip>Программа попытается найти такую линию, в которой не будет перепада цветов (Должен быть только один цвет в пределах одной высоты)</TextBlock.ToolTip>
                 </TextBlock>
                 <CheckBox HorizontalAlignment="Center" IsChecked="{Binding IsTrueSlice}" VerticalAlignment="Center"
                           Grid.Column="1" />
@@ -49,8 +44,7 @@
                     <Grid Height="35px"
                           ToolTip="Указывает ширину линии проверки. Указывайте, если хотите, чтобы программа находила большие пустые промежутки">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="50px" />
+                            <ColumnDefinition Width="*" /> <ColumnDefinition Width="50px" />
                         </Grid.ColumnDefinitions>
                         <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"
                                    TextAlignment="Left" VerticalAlignment="Center" Grid.Column="0">
@@ -61,8 +55,7 @@
                     <Grid Height="35px"
                           ToolTip="Насколько разными допускаются цвета на 1 линии. Используется, чтобы алгоритм не ухватывал шум.">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="50px" />
+                            <ColumnDefinition Width="*" /> <ColumnDefinition Width="50px" />
                         </Grid.ColumnDefinitions>
                         <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"
                                    TextAlignment="Left" VerticalAlignment="Center" Grid.Column="0">
@@ -74,8 +67,7 @@
                     <Grid Height="35px"
                           ToolTip="Работает, если не указана Максимальная высота. Указывает промежуток, между которым можно сделать разрез. Используется вместе с параметром 'Сколько разрезов делать'">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="50px" />
+                            <ColumnDefinition Width="*" /> <ColumnDefinition Width="50px" />
                         </Grid.ColumnDefinitions>
                         <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left"
                                    TextAlignment="Left" VerticalAlignment="Center" Grid.Column="0">
@@ -86,8 +78,7 @@
                     </Grid>
                     <Grid Height="35px" ToolTip="Указывается, каков минимальный размер разрезанной картинки">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="50px" />
+                            <ColumnDefinition Width="*" /> <ColumnDefinition Width="50px" />
                         </Grid.ColumnDefinitions>
                         <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left"
                                    VerticalAlignment="Center" Grid.Column="0">
@@ -98,8 +89,7 @@
                     <Grid Height="35px"
                           ToolTip="Если у вас есть предпочтения по максимальной высоте. Алгоритм может сделать разрез больше, чем указан, если после разреза 1 из картинок меньше минимальной высоты">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="50px" />
+                            <ColumnDefinition Width="*" /> <ColumnDefinition Width="50px" />
                         </Grid.ColumnDefinitions>
                         <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left"
                                    VerticalAlignment="Center" Grid.Column="0">

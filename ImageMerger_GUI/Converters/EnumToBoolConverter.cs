@@ -22,7 +22,7 @@ namespace ImageMerger.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string parameterString = parameter as string;
+            var parameterString = parameter as string;
             if (parameterString == null)
                 return DependencyProperty.UnsetValue;
 

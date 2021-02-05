@@ -8,6 +8,12 @@ namespace ImageMerger
     [Serializable]
     public class StartSettings
     {
+        public StartSettings()
+        {
+            ConcatSettings = new ConcatSettings();
+            SliceSettings = new SliceSettings();
+        }
+
         public ConcatSettings ConcatSettings { get; set; }
         public SliceSettings SliceSettings { get; set; }
 
@@ -28,12 +34,6 @@ namespace ImageMerger
         {
             var result = JsonConvert.SerializeObject(this);
             File.WriteAllText("Settings.json", result);
-        }
-
-        public StartSettings()
-        {
-            ConcatSettings = new ConcatSettings();
-            SliceSettings = new SliceSettings();
         }
     }
 }

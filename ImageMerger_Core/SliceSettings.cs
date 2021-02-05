@@ -6,27 +6,6 @@ namespace ImageMerger_Core
     [Serializable]
     public class SliceSettings
     {
-        [JsonProperty]
-        public string InputDirectory { get; set; }
-        [JsonProperty]
-        public string OutputDirectory { get; set; }
-        [JsonProperty]
-        public int SliceCount { get; set; }
-        [JsonProperty]
-        public bool IsTrueSlice { get; set; }
-        [JsonProperty]
-        public int TrueSliceMinHeight { get; set; }
-        [JsonProperty]
-        public int TrueSliceMaxHeight { get; set; }
-        [JsonProperty]
-        public int TrueSliceMaxDistance { get; set; }
-        [JsonProperty]
-        public int TrueSliceColorDifference { get; set; }
-        [JsonProperty]
-        public int TrueSliceHeight { get; set; }
-        [JsonProperty]
-        public int Pad { get; set; }
-
         public SliceSettings()
         {
             InputDirectory = "";
@@ -56,5 +35,35 @@ namespace ImageMerger_Core
             TrueSliceHeight = trueSliceHeight;
             Pad = pad;
         }
+
+        [JsonProperty]
+        public string InputDirectory { get; set; }
+
+        [JsonProperty]
+        public string OutputDirectory { get; set; }
+
+        [JsonProperty]
+        public int SliceCount { get; set; }
+
+        [JsonProperty]
+        public bool IsTrueSlice { get; set; }
+
+        [JsonProperty]
+        public int TrueSliceMinHeight { get; set; }
+
+        [JsonProperty]
+        public int TrueSliceMaxHeight { get; set; }
+
+        [JsonProperty]
+        public int TrueSliceMaxDistance { get; set; }
+
+        [JsonProperty]
+        public int TrueSliceColorDifference { get; set; }
+
+        [JsonProperty]
+        public int TrueSliceHeight { get; set; }
+
+        [JsonProperty]
+        public int Pad { get; set; }
     }
 }

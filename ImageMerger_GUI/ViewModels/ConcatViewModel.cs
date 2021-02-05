@@ -4,12 +4,12 @@ namespace ImageMerger.ViewModels
 {
     public class ConcatViewModel : BindableBase
     {
+        private readonly StartSettings settings;
         private int maxFilesConcat;
 
         private int maxHeightConcat;
 
         private int offset;
-        private readonly StartSettings settings;
 
         public ConcatViewModel(StartSettings settings)
         {
