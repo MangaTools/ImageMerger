@@ -13,79 +13,112 @@ namespace ImageMerger_Core
     {
         private static readonly HashSet<string> Extensions = new HashSet<string> {".png", ".jpg", ".jpeg"};
 
-        public static async Task Slice(SliceSettings settings, IProgress<double> progress)
+        public static void Slice(SliceSettings settings, IProgress<double> progress)
         {
-            await Task.Run(() => { SliceDirectory(settings, progress); });
-        }
-
-        private static void SliceDirectory(SliceSettings settings, IProgress<double> progress)
-        {
-            var slicedFiles = 0;
             var files = Directory.GetFiles(settings.InputDirectory)
                 .Where(x => Extensions.Contains(Path.GetExtension(x)))
                 .ToArray();
             var maxFiles = files.Length;
 
-            var i = 1;
-            var pad = 2;
+            var tasks = new List<Task<int>>();
+            var l = new object();
+            var slicedFiles = 0;
+
+            var previousTask = Task<int>.Factory.StartNew(() => 1);
 
             if (!settings.IsTrueSlice)
                 foreach (var imagePath in files)
                 {
-                    var image = new Bitmap(imagePath);
-                    var slices = new List<int>();
-                    for (var c = 1; c < settings.SliceCount; c++)
+                    var currentTaskWaitingTask = previousTask;
+                    var task = Task<int>.Factory.StartNew(() =>
                     {
-                        var slice = (int) ((double) c / settings.SliceCount * image.Height);
-                        slices.Add(slice);
-                    }
+                        var currentImagePath = imagePath;
 
-                    slices.Add(image.Height);
-                    var resultImages = SliceImage(image, slices.ToArray());
+                        var image = new Bitmap(currentImagePath);
+                        var slices = new List<int>();
+                        for (var c = 1; c < settings.SliceCount; c++)
+                        {
+                            var slice = (int) ((double) c / settings.SliceCount * image.Height);
+                            slices.Add(slice);
+                        }
 
-                    slicedFiles++;
-                    progress.Report((double) slicedFiles / maxFiles);
+                        slices.Add(image.Height);
+                        var resultImages = SliceImage(image, slices.ToArray());
+                        image.Dispose();
 
-                    foreach (var resImage in resultImages)
-                    {
-                        var path = $"{settings.OutputDirectory}\\{i.ToString().PadLeft(pad, '0')}.png";
-                        resImage.Save(path);
-                        i++;
-                        resImage.Dispose();
-                    }
+                        currentTaskWaitingTask.Wait();
+                        var i = currentTaskWaitingTask.Result;
+
+                        foreach (var resImage in resultImages)
+                        {
+                            var path = $"{settings.OutputDirectory}\\{i.ToString().PadLeft(settings.Pad, '0')}.png";
+                            resImage.Save(path);
+                            i++;
+                            resImage.Dispose();
+                        }
+
+                        lock (l)
+                        {
+                            slicedFiles++;
+                            progress.Report((double) slicedFiles / maxFiles);
+                        }
+
+                        return i;
+                    });
+
+                    previousTask = task;
+                    tasks.Add(task);
                 }
             else
                 foreach (var imagePath in files)
                 {
-                    var image = new Bitmap(imagePath);
-                    var slices = new List<int>();
-                    var previousSlice = 0;
-                    while (previousSlice != image.Height)
+                    var currentTaskWaitingTask = previousTask;
+                    var task = Task<int>.Factory.StartNew(() =>
                     {
-                        var (minSlice, maxSlice) = GetMinMaxHeight(settings, image.Height, previousSlice);
-                        var slice = GetSlice(image, minSlice, maxSlice, settings.TrueSliceHeight,
-                            settings.TrueSliceColorDifference);
+                        var image = new Bitmap(imagePath);
+                        var slices = new List<int>();
+                        var previousSlice = 0;
+                        while (previousSlice != image.Height)
+                        {
+                            var (minSlice, maxSlice) = GetMinMaxHeight(settings, image.Height, previousSlice);
+                            var slice = GetSlice(image, minSlice, maxSlice, settings.TrueSliceHeight,
+                                settings.TrueSliceColorDifference);
 
-                        if (slice == -1)
-                            slice = minSlice + (maxSlice - minSlice) / 2;
+                            if (slice == -1)
+                                slice = minSlice + (maxSlice - minSlice) / 2;
 
-                        previousSlice = slice;
-                        slices.Add(previousSlice);
-                    }
+                            previousSlice = slice;
+                            slices.Add(previousSlice);
+                        }
 
-                    var resultImages = SliceImage(image, slices.ToArray());
+                        var resultImages = SliceImage(image, slices.ToArray());
+                        image.Dispose();
 
-                    slicedFiles++;
-                    progress.Report((double) slicedFiles / maxFiles);
+                        currentTaskWaitingTask.Wait();
+                        var i = currentTaskWaitingTask.Result;
 
-                    foreach (var resImage in resultImages)
-                    {
-                        var path = $"{settings.OutputDirectory}\\{i.ToString().PadLeft(pad, '0')}.png";
-                        resImage.Save(path);
-                        i++;
-                        resImage.Dispose();
-                    }
+                        foreach (var resImage in resultImages)
+                        {
+                            var path = $"{settings.OutputDirectory}\\{i.ToString().PadLeft(settings.Pad, '0')}.png";
+                            resImage.Save(path);
+                            i++;
+                            resImage.Dispose();
+                        }
+
+                        lock (l)
+                        {
+                            slicedFiles++;
+                            progress.Report((double) slicedFiles / maxFiles);
+                        }
+
+                        return i;
+                    });
+
+                    previousTask = task;
+                    tasks.Add(task);
                 }
+
+            Task.WaitAll(tasks.ToArray());
         }
 
         private static Bitmap[] SliceImage(Bitmap image, int[] slices)

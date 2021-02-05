@@ -17,26 +17,43 @@ namespace ImageMerger_Core
                 .Where(x => Extensions.Contains(Path.GetExtension(x)))
                 .ToArray();
             var maxFiles = files.Length;
-            var concatedFiles = 0;
+            var progressValue = 0d;
 
             var i = 1;
+            var tasks = new List<Task>();
+            var l = new object();
+
 
             while (files.Length != 0)
             {
                 var mergingFiles = TakeImagesForConcat(files, settings);
                 files = files.Skip(mergingFiles.Length).ToArray();
-                concatedFiles += mergingFiles.Length;
-                var result = ConcatBitmaps(mergingFiles, settings.Offset);
 
-                progress.Report((double) concatedFiles / maxFiles);
 
                 var path = $"{settings.OutputDirectory}\\{i.ToString().PadLeft(settings.Pad, '0')}.png";
-                result.Save(path);
-                result.Dispose();
-                foreach (var file in mergingFiles)
-                    file.Dispose();
+                tasks.Add(Task.Factory.StartNew(() =>
+                {
+                    var currentPath = path;
+                    var currentMergingFiles = mergingFiles;
+
+                    var result = ConcatBitmaps(currentMergingFiles, settings.Offset);
+
+                    result.Save(currentPath);
+                    result.Dispose();
+                    foreach (var file in currentMergingFiles)
+                        file.Dispose();
+
+                    lock (l)
+                    {
+                        progressValue += (double) currentMergingFiles.Length / maxFiles;
+                        progress.Report(progressValue);
+                    }
+                }));
+
                 i++;
             }
+
+            Task.WaitAll(tasks.ToArray());
         }
 
         private static Bitmap[] TakeImagesForConcat(string[] files, ConcatSettings settings)
