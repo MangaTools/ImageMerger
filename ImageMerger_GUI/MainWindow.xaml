@@ -9,7 +9,9 @@
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:interactivity="http://prismlibrary.com/"
         SizeToContent="WidthAndHeight"
-        Title="Склейка/Нарезка картинок" MinHeight="300" MinWidth="400"
+        Initialized="MainWindow_OnInitialized"
+        Title="{Binding Title}" MinHeight="300" MinWidth="400"
+
         d:DataContext="{d:DesignInstance {x:Type viewModels:MainWindowViewModel}}">
 
     <b:Interaction.Triggers>
@@ -34,16 +36,7 @@
                     Входная папка
                 </TextBlock>
                 <TextBox Margin="10,0" VerticalAlignment="Center" Height="25px" Grid.Column="1" AllowDrop="True"
-                         Text="{Binding InputDirectory, UpdateSourceTrigger=PropertyChanged}">
-                    <b:Interaction.Triggers>
-                        <b:EventTrigger EventName="DragEnter">
-                            <interactivity:InvokeCommandAction Command="{Binding InputDirectoryDragEnter}" />
-                        </b:EventTrigger>
-                        <b:EventTrigger EventName="DragDrop">
-                            <interactivity:InvokeCommandAction Command="{Binding InputDirectoryDragDrop}" />
-                        </b:EventTrigger>
-                    </b:Interaction.Triggers>
-                </TextBox>
+                         Text="{Binding InputDirectory, UpdateSourceTrigger=PropertyChanged}" PreviewDragOver="OnDragOver" PreviewDrop="OnDrop"/>
                 <Button Grid.Column="2" Height="25px" Command="{Binding InputShowDialogCommand}">Обзор</Button>
             </Grid>
 
@@ -58,16 +51,7 @@
                     Выходная папка
                 </TextBlock>
                 <TextBox Margin="10,0" VerticalAlignment="Center" Height="25px" Grid.Column="1" AllowDrop="True"
-                         Text="{Binding OutputDirectory, UpdateSourceTrigger=PropertyChanged}">
-                    <b:Interaction.Triggers>
-                        <b:EventTrigger EventName="DragEnter">
-                            <interactivity:InvokeCommandAction Command="{Binding OutputDirectoryDragEnter}" />
-                        </b:EventTrigger>
-                        <b:EventTrigger EventName="DragDrop">
-                            <interactivity:InvokeCommandAction Command="{Binding OutputDirectoryDragDrop}" />
-                        </b:EventTrigger>
-                    </b:Interaction.Triggers>
-                </TextBox>
+                         Text="{Binding OutputDirectory, UpdateSourceTrigger=PropertyChanged}" PreviewDragOver="OnDragOver" PreviewDrop="OnDrop"/>
                 <Button Grid.Column="2" Height="25px" Command="{Binding OutputShowDialogCommand}">Обзор</Button>
             </Grid>
 

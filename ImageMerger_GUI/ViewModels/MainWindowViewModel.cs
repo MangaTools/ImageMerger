@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Media;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using ImageMerger.Enums;
 using ImageMerger_Core;
@@ -89,6 +90,9 @@ namespace ImageMerger.ViewModels
                 }
             }
         }
+
+        public string Title =>
+            $"Склейка/Нарезка изображений v{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}";
 
         public string OutputDirectory
         {
