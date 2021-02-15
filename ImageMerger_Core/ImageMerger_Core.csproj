@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -52,12 +53,16 @@
     <Compile Include="Concatter.cs" />
     <Compile Include="ConcatSettings.cs" />
     <Compile Include="AdditionalMath.cs" />
+    <Compile Include="ISlicer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Slicer.cs" />
+    <Compile Include="Slicers\SlicerBySliceCount.cs" />
+    <Compile Include="Slicers\TrueSlicer.cs" />
     <Compile Include="SliceSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
