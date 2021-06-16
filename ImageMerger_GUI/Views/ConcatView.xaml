@@ -57,13 +57,13 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left"
-                           ToolTip="Если выбрана минимальная, то все картинки больше минимальной будут обрезаться по краям. Если по максимальной, то у маленьких будет белый фон по краям." VerticalAlignment="Center"
+                           ToolTip="Картинки, которые не максимальной/минимальной ширины будут подгоняться под заданную ширину(увеличиваться или уменьшаться). Из-за этого может ухудшиться качество" VerticalAlignment="Center"
                            Grid.Column="0">
                     Как склеивать картинки разной ширины
                 </TextBlock>
                 <ComboBox SelectedIndex="{Binding WidthCorrector, FallbackValue=0}" Height="25" Grid.Column="1">
                     <ComboBoxItem>По минимальной ширине</ComboBoxItem>
-                    <ComboBoxItem>По максимальной ширине ширине</ComboBoxItem>
+                    <ComboBoxItem>По максимальной ширине</ComboBoxItem>
                 </ComboBox>
             </Grid>
         </StackPanel>

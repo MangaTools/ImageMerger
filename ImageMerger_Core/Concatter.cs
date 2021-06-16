@@ -100,18 +100,22 @@ namespace ImageMerger_Core
                 default: throw new ArgumentOutOfRangeException(nameof(correction), correction, null);
             }
 
-            var height = bitmaps.Sum(x => x.Height) + (bitmaps.Length - 1) * offset;
+            var height = bitmaps.Sum(x =>
+            {
+                var scaleFactor = ((double)width) / x.Width;
+                return (int)(x.Height * scaleFactor);
+            }) + (bitmaps.Length - 1) * offset;
             var bitmap = new Bitmap(width, height);
             using (var g = Graphics.FromImage(bitmap))
             {
-                g.FillRectangle(Brushes.White, 0, 0, width, height);
                 var verticalOffset = 0;
                 foreach (var b in bitmaps)
                 {
                     var x = (width - b.Width) / 2;
-
-                    g.DrawImage(b, x, verticalOffset, b.Width, b.Height);
-                    verticalOffset += b.Height - offset;
+                    var scaleFactor = ((double)width) / b.Width;
+                    var newHeight = (int) (b.Height * scaleFactor);
+                    g.DrawImage(b, 0, verticalOffset, width, newHeight);
+                    verticalOffset += newHeight - offset;
                 }
             }
 
