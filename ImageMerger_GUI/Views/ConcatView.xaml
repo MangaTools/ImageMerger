@@ -50,6 +50,22 @@
                 <xctk:IntegerUpDown Minimum="0" Height="25" Grid.Column="1"
                                     Value="{Binding MaxHeightConcat, FallbackValue=0}" />
             </Grid>
+
+            <Grid Height="35px">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock TextWrapping="Wrap" HorizontalAlignment="Left" TextAlignment="Left"
+                           ToolTip="Если выбрана минимальная, то все картинки больше минимальной будут обрезаться по краям. Если по максимальной, то у маленьких будет белый фон по краям." VerticalAlignment="Center"
+                           Grid.Column="0">
+                    Как склеивать картинки разной ширины
+                </TextBlock>
+                <ComboBox SelectedIndex="{Binding WidthCorrector, FallbackValue=0}" Height="25" Grid.Column="1">
+                    <ComboBoxItem>По минимальной ширине</ComboBoxItem>
+                    <ComboBoxItem>По максимальной ширине ширине</ComboBoxItem>
+                </ComboBox>
+            </Grid>
         </StackPanel>
     </Grid>
 </Page>

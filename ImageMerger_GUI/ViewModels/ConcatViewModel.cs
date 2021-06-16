@@ -8,6 +8,16 @@ namespace ImageMerger.ViewModels
         private int maxFilesConcat;
 
         private int maxHeightConcat;
+        private int widthCorrector;
+        public int WidthCorrector
+        {
+            get => widthCorrector;
+            set
+            {
+                if (SetProperty(ref widthCorrector, value))
+                    settings.ConcatSettings.WidthCorrector = value;
+            }
+        }
 
         private int offset;
 
@@ -17,6 +27,7 @@ namespace ImageMerger.ViewModels
             Offset = settings.ConcatSettings.Offset;
             MaxFilesConcat = settings.ConcatSettings.MaxFiles;
             MaxHeightConcat = settings.ConcatSettings.MaxFileHeight;
+            WidthCorrector = settings.ConcatSettings.WidthCorrector;
         }
 
         public int Offset

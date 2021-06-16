@@ -5,11 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Colourful;
+
 namespace ImageMerger_Core
 {
     public static class Concatter
     {
-        private static readonly HashSet<string> Extensions = new HashSet<string> {".png", ".jpg", ".jpeg"};
+        private static readonly HashSet<string> Extensions = new HashSet<string> { ".png", ".jpg", ".jpeg" };
 
         public static void Concat(ConcatSettings settings, IProgress<double> progress)
         {
@@ -36,7 +38,7 @@ namespace ImageMerger_Core
                     var currentPath = path;
                     var currentMergingFiles = mergingFiles;
 
-                    var result = ConcatBitmaps(currentMergingFiles, settings.Offset);
+                    var result = ConcatBitmaps(currentMergingFiles, settings.Offset, (ConcatImageByWidth)settings.WidthCorrector);
 
                     result.Save(currentPath);
                     result.Dispose();
@@ -45,7 +47,7 @@ namespace ImageMerger_Core
 
                     lock (l)
                     {
-                        progressValue += (double) currentMergingFiles.Length / maxFiles;
+                        progressValue += (double)currentMergingFiles.Length / maxFiles;
                         progress.Report(progressValue);
                     }
                 }));
@@ -81,20 +83,34 @@ namespace ImageMerger_Core
             return bitmaps.ToArray();
         }
 
-        private static Bitmap ConcatBitmaps(Bitmap[] bitmaps, int offset)
+        private static Bitmap ConcatBitmaps(Bitmap[] bitmaps, int offset, ConcatImageByWidth correction)
         {
             if (bitmaps.Length == 0)
                 return null;
 
-            var width = bitmaps[0].Width;
+            int width;
+            switch (correction)
+            {
+                case ConcatImageByWidth.MinWidth:
+                    width = bitmaps.Min(x => x.Width);
+                    break;
+                case ConcatImageByWidth.MaxWidth:
+                    width = bitmaps.Max(x => x.Width);
+                    break;
+                default: throw new ArgumentOutOfRangeException(nameof(correction), correction, null);
+            }
+
             var height = bitmaps.Sum(x => x.Height) + (bitmaps.Length - 1) * offset;
             var bitmap = new Bitmap(width, height);
             using (var g = Graphics.FromImage(bitmap))
             {
+                g.FillRectangle(Brushes.White, 0, 0, width, height);
                 var verticalOffset = 0;
                 foreach (var b in bitmaps)
                 {
-                    g.DrawImage(b, 0, verticalOffset, b.Width, b.Height);
+                    var x = (width - b.Width) / 2;
+
+                    g.DrawImage(b, x, verticalOffset, b.Width, b.Height);
                     verticalOffset += b.Height - offset;
                 }
             }

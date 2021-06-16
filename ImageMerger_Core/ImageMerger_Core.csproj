@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConcatImageByWidth.cs" />
     <Compile Include="Concatter.cs" />
     <Compile Include="ConcatSettings.cs" />
     <Compile Include="AdditionalMath.cs" />

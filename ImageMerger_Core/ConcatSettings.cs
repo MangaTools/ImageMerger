@@ -14,10 +14,11 @@ namespace ImageMerger_Core
             MaxFileHeight = 0;
             Offset = 0;
             Pad = 2;
+            WidthCorrector = 1;
         }
 
         public ConcatSettings(string inputDirectory, string outputDirectory, int maxFiles, int maxFileHeight,
-            int offset, int pad)
+            int offset, int pad, int widthCorrector)
         {
             InputDirectory = inputDirectory;
             OutputDirectory = outputDirectory;
@@ -25,6 +26,7 @@ namespace ImageMerger_Core
             MaxFileHeight = maxFileHeight;
             Offset = offset;
             Pad = pad;
+            WidthCorrector = widthCorrector;
         }
 
         [JsonProperty]
@@ -44,5 +46,8 @@ namespace ImageMerger_Core
 
         [JsonProperty]
         public int Pad { get; set; }
+
+        [JsonProperty]
+        public int WidthCorrector { get; set; }
     }
 }
